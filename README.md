@@ -35,6 +35,9 @@
 
 Fitur-fitur ini akan membantu mempermudah pendataan dan pengelolaan keluarga dalam aplikasi web silsilah keluarga berbasis Laravel. Tentu saja, fitur-fitur tersebut dapat disesuaikan dengan kebutuhan dan preferensi pengguna.
 
+Tambahan fitur yang ada di aplikasi ini adalah menampilkan nama pasangan dari setiap keturunan yang sudah menikah pada bagian pohon keluarga.
+Tambahan fitur yang lain di aplikasi ini adalah menampilkan nama pasangan dari setiap bagan keluarga bagi yang sudah menikah.
+
 ## Requirements
 - [PHP >= 8.1.6](http://php.net/)
 - [Laravel Framework](https://github.com/laravel/framework)
