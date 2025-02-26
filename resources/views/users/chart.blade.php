@@ -1,7 +1,5 @@
 @extends('layouts.user-profile-wide')
-
 @section('subtitle', trans('app.family_chart'))
-
 @section('user-content')
 <div class="panel panel-default table-responsive">
     <table class="table table-bordered table-striped">
@@ -34,6 +32,18 @@
                 <th>&nbsp;</th>
                 <td class="text-center lead" colspan="4">
                     <strong>{{ $user->profileLink('chart') }} ({{ $user->gender }})</strong>
+                    @if($user->couples->isNotEmpty())
+                        <br>
+                        <small>{{ trans('user.spouse') }}:
+                        @foreach($user->couples as $spouse)
+                            {{ $spouse->profileLink('chart') }}
+                            @if($spouse->pivot->marriage_date)
+                                ({{ Carbon\Carbon::parse($spouse->pivot->marriage_date)->format('Y') }})
+                            @endif
+                            @if(!$loop->last), @endif
+                        @endforeach
+                        </small>
+                    @endif
                 </td>
             </tr>
             <tr>
@@ -44,10 +54,38 @@
                     <div class="">
                         @foreach($chunkedChild as $child)
                         <div class="col-md-3">
-                            <h4><strong>{{ ++$no }}. {{ $child->profileLink('chart') }} ({{ $child->gender }})</strong></h4>
+                            <h4>
+                                <strong>{{ ++$no }}. {{ $child->profileLink('chart') }} ({{ $child->gender }})</strong>
+                                @if($child->couples->isNotEmpty())
+                                    <br>
+                                    <small>{{ trans('user.spouse') }}:
+                                    @foreach($child->couples as $spouse)
+                                        {{ $spouse->profileLink('chart') }}
+                                        @if($spouse->pivot->marriage_date)
+                                            ({{ Carbon\Carbon::parse($spouse->pivot->marriage_date)->format('Y') }})
+                                        @endif
+                                        @if(!$loop->last), @endif
+                                    @endforeach
+                                    </small>
+                                @endif
+                            </h4>
                             <ul style="padding-left: 30px">
                                 @foreach($child->childs as $grand)
-                                <li>{{ $grand->profileLink('chart') }} ({{ $grand->gender }})</li>
+                                <li>
+                                    {{ $grand->profileLink('chart') }} ({{ $grand->gender }})
+                                    @if($grand->couples->isNotEmpty())
+                                        <br>
+                                        <small>{{ trans('user.spouse') }}:
+                                        @foreach($grand->couples as $spouse)
+                                            {{ $spouse->profileLink('chart') }}
+                                            @if($spouse->pivot->marriage_date)
+                                                ({{ Carbon\Carbon::parse($spouse->pivot->marriage_date)->format('Y') }})
+                                            @endif
+                                            @if(!$loop->last), @endif
+                                        @endforeach
+                                        </small>
+                                    @endif
+                                </li>
                                 @endforeach
                             </ul>
                         </div>
@@ -62,7 +100,6 @@
         </tbody>
     </table>
 </div>
-
 <h4 class="page-header">
     {{ trans('user.siblings') }}, {{ trans('user.nieces') }}, & {{ trans('user.grand_childs') }}
 </h4>
